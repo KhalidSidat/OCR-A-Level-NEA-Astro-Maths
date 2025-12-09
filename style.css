@@ -1,0 +1,472 @@
+
+html, body { /* Ensures the full width and height of the page is used */
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+body { /* Sets the background colour of the page to a dark blue */
+  background-color: rgb(0, 0, 20);
+  color: white; /* text colour */
+}
+@font-face { /* Custom online fonts for the game */
+  font-family: "Space Crusader";
+  src: url(space-crusader-font/SpaceCrusader-a7Ma.ttf);
+}
+@font-face {
+  font-family: "Space Cadets";
+  src: url(space-cadets-font/SpaceCadets-a7Ma.ttf);
+}
+
+@font-face {
+  font-family: 'Astro Space';
+  src: url(a-astro-space-font/AstroSpace-0Wl3o.otf)
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url(Orbitron/Orbitron-VariableFont_wght.ttf)
+}
+
+#Title-Container { /* Styles for the title container: Shows where it is placed (Center, 200px down) */
+  text-align: center;
+  margin-top: 200px;
+  z-index: 2;
+}
+
+#Title-Container img { /* Sets the width and height for the image */
+  width: 600px;
+  height: auto;
+  z-index: 1; 
+}
+
+#Menu_Buttons { /* Styles for the menu buttons container*/
+  display: flex; /* Flexbox used for the layout of the buttons */
+  flex-direction: column; /* Column layout for buttons so it is lined vertically  */
+  align-items: center;
+  margin-top: 50px; /* 50px below the title */
+  gap: 40px;     /* gap between buttons */
+  z-index: 1;
+}
+#Menu_Buttons button { /* Styles for the buttons in the menu, including text and background colour, border, font */
+  font-size: 30px;
+  width: 300px;
+  height: auto;
+  background: #222;
+  color: #00eaff;
+  border: 3px solid #f79627;
+  font-family: 'Astro Space'; 
+  z-index: 1;
+}
+#Menu_Buttons button:hover { /* if the user hovers over the button, the text colour changes */
+  color: #f79627;
+  cursor: pointer;
+  z-index: 1;
+}
+/* Below are 3 planets which are placed in th background of the game for extra aesthetics */
+#moon { 
+  position: absolute; /* Positioning the moon in the bottom left corner of the screen */
+  bottom: 50px;
+  left: 50px;
+  width: 200px;
+  height: auto;
+  z-index: 1;
+}
+#earth {  /* Positioning the earth in the bottom right corner of the screen*/
+  position: absolute;
+  bottom: -320px;
+  right: -380px;
+  width: 800px;   
+  height: auto;
+  z-index: 1;
+}
+
+#blueplanet { /* Positioning the blue planet in the top right corner of the screen*/
+  position: absolute;
+  top: 20px;
+  left: 170px;
+  width: 70px;
+  height: auto;
+  z-index: 1;
+}
+
+#Leaderboard-Contents h1 { /* Styles for the leaderboard container (TEMPORARY) */
+  font-family: 'Space Cadets';
+  font-size: 30px;
+}
+
+#Leaderboard-Contents { /* Places the leaderboard in the top right corner of the screen in a fixed position */
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  width: 300px;
+  height: 30%;
+  background-color: #222;
+  border: 3px solid #f79627;
+  color: #00eeff;
+  padding: 20px; /* padding around the text inside the leaderboard */
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;     
+}
+
+
+#myCanvas {
+  position: fixed; 
+  top: 0;
+  left: 0;  /*places canves at the top left of the screen (fixed)*/
+  width: 100vw;
+  height: 100vh; /*ensures the whole page is being used*/
+  z-index: -1; /*ensures the canvas is behind all of the other page elements*/
+  pointer-events: none; /*prevents the stars from getting in the way of the users interaction with buttons etc.*/
+}
+
+
+.modal {  /* defines the display overlay for the instructions modal */
+  display: none; /*Prevents the instructions screen from being the first thing the user sees */
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0; 
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0,0,0,0.4); /* sets a darker background to the rest of the screen excluding the instrucions screen */
+}
+
+.Instructions-modal-content { /* Styles the instructions screen: Background Colour, border, layout of text */
+  background-color: #222222;
+  margin: 15% auto; 
+  padding: 20px; 
+  border: 2px solid #f79627;
+  width: 50%; 
+  text-align: center;
+}
+#Instructions-headings {
+  font-family: Space Cadets;
+  color: #00eeff; 
+}
+#Instructions-text { 
+  font-family: 'Orbitron';
+  color: #f79627; 
+}
+
+.Instructions-close { /* defualt style for the close button ('x') in the instructions screen */
+  color: #aaa;
+  float: right; /* Places the 'x' in the top right corner instead of the center */
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.Instructions-close:hover { /* When the user hovers over the close button, the colour of the 'x' changes to red and a pointer is shown */
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+.Game_Bar_Container { /* Creates a HUD Game Bar at bottom of screen covering the whole width  */
+  position: fixed;
+  background-color: rgb(0, 0, 0);
+  height: 60px;
+  width: 100vw;
+  bottom: 0;
+  z-index: 1;
+}
+
+.Game_Info { /* This sets the text colour, font and applies a gap in between Score, time and level*/
+  display: flex; 
+  padding: 10px; /* controls distance between content and the border */
+  font-family: Space Cadets;
+  font-size: 10px;
+  color: rgb(130, 255, 147);
+  z-index: 1;
+  gap: 800px; 
+}
+
+#Spaceship-Container { /* Postioning of Spaceship */
+  position: absolute; 
+}
+
+#Spaceship_Boost { /* Sizing for the spaceship image */
+  position: fixed;
+  bottom: 40px;
+  transform: translateX(-50%);
+  width: 300px; 
+  height: auto; 
+  z-index: 1;
+  
+}
+
+#Rocket_Launcher { /* Sizing for the Rocket Launcher image */
+  position: fixed;
+  bottom: 185px;
+  transform: translateX(415%);
+  width: 200px; 
+  height: auto; 
+  z-index: 1;
+}
+
+
+
+
+
+
+#projectiles-Container2 { 
+  position: fixed; 
+  top: -100px; 
+  left: 475px; /* +475 px difference between each projectile */
+  z-index: 1;
+}
+
+#projectiles-Container3 { 
+  position: fixed; 
+  top: -100px; 
+  left: 950px;
+  z-index: 1;
+}
+
+#projectiles-Container4 { 
+  position: fixed; 
+  top: -100px; 
+  left: 1425px;
+  z-index: 1;
+}
+/* Below Are the sizes of each projectile (All Same/TEMPORARY) */
+.projectile {
+  position: absolute;
+  top: 0;
+  left: 50%; /* Centers the projectile */
+  transform: translateX(-50%); /* Centers the projectile */
+}
+
+.question {
+  position: absolute;
+  top: 50%; /* Position the question relative to the projectile */
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); /* Keep the question in the center of the projectile */
+  font-size: 16px;
+  color: #fff; /* White color for contrast */
+  font-family: 'Space Cadets', sans-serif;
+}
+
+#projectile2 { 
+  width: 400px; 
+  height: auto; 
+}
+
+#projectile3 { 
+  width: 400px; 
+  height: auto; 
+}
+
+#projectile4 { 
+  width: 400px; 
+  height: auto; 
+}
+
+#Pause_Container { /* Positions Pause image in the top right corner */
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
+/* styles the pause Button */
+#Pause_Button {
+    display: block;
+    background: rgb(0, 0, 20); /* dark blue used to blend with background */
+    width: 50px;
+    height: auto;
+}
+
+#Pause {
+    background: none;
+    border: none;
+}
+
+.Pause_modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+
+}
+
+.Pause-modal-content {
+    background-color: #222222;
+    margin: 15% auto;
+    padding: 20px;
+    border: 2px solid #f79627;
+    width: 50%;
+    text-align: center;
+}
+
+.Pause-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.Pause-close:hover {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+#Pause_Buttons {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  margin-top: 40px; 
+  gap: 20px;     
+  z-index: 1;
+}
+
+
+#Pause_Buttons button { /* Styles for the buttons in the menu, including text and background colour, border, font */
+  font-size: 25px;
+  width: 250px;
+  height: auto;
+  background: #222;
+  color: #00eaff;
+  border: 3px solid #f79627;
+  font-family: 'Astro Space'; 
+  z-index: 1;
+}
+
+
+#Pause_Buttons button:hover { /* if the user hovers over the button, the text colour changes */
+  color: #f79627;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#Game_Lost_Heading {
+    font-family: Space Cadets;
+    color: #b80000;
+    text-align: center;
+    margin-top: 200px;
+    margin-bottom: 10px;
+    font-size: 50px;
+}
+
+
+#Score {
+    font-family: Space Cadets;
+    color: #b80000;
+    text-align: center;
+    margin-right: 375px;
+    font-size: 30px;
+    margin-top: 10px;
+
+}
+
+#Time {
+    font-family: Space Cadets;
+    color: #b80000;
+    text-align: center;
+    margin-right: 425px;
+    font-size: 30px;
+}
+
+
+#Game_Lost_Buttons {
+  display: flex; /* Flexbox used for the layout of the buttons */
+  flex-direction: column; /* Column layout for buttons so it is lined vertically  */
+  align-items: center;
+  margin-top: 50px; /* 50px below the title */
+  gap: 40px;     /* gap between buttons */
+  z-index: 1;
+}
+#Game_Lost_Buttons button { /* Styles for the buttons in the menu, including text and background colour, border, font */
+  font-size: 30px;
+  width: 300px;
+  height: auto;
+  background: #222;
+  color: #b60000;
+  border: 3px solid #b60000;
+  font-family: 'Astro Space'; 
+  z-index: 1;
+}
+
+#Game_Lost_Buttons button:hover { /* if the user hovers over the button, the text colour changes */
+  color: #ff0000;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#Game_Won_Heading {
+    font-family: Space Cadets;
+    color: #00ff00;
+    text-align: center;
+    margin-top: 200px;
+    font-size: 50px;
+}
+
+#Score_victory {
+    font-family: Space Cadets;
+    color: #00ff00;
+    text-align: center;
+    margin-right: 520px;
+    font-size: 30px;
+    margin-top: 10px;
+
+}
+
+
+#Game_Won_Buttons {
+  display: flex; /* Flexbox used for the layout of the buttons */
+  flex-direction: column; /* Column layout for buttons so it is lined vertically  */
+  align-items: center;
+  margin-top: 50px; /* 50px below the title */
+  gap: 40px;     /* gap between buttons */
+  z-index: 1;
+}
+
+#Game_Won_Buttons button { /* Styles for the buttons in the menu, including text and background colour, border, font */
+  font-size: 30px;
+  width: 300px;
+  height: auto;
+  background: #222;
+  color: #00b600;
+  border: 3px solid #00b600;
+  font-family: 'Astro Space'; 
+  z-index: 1;
+}
+
+#Game_Won_Buttons button:hover { /* if the user hovers over the button, the text colour changes */
+  color: #00ff00;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#DoublePoints_PowerUp {
+  display: block; 
+  position: fixed;
+  width: 300px; /* Size of the power-up icon */
+  height: auto;
+  bottom: 5px; /* Position above the game bar */
+  right: 100px; /* Position from the right side */
+  z-index: 1; /* Ensure it appears above other elements */
+}
+
+#Freeze_PowerUp {
+  display: none; 
+  position: fixed;
+  width: 300px; /* Size of the power-up icon */
+  height: auto;
+  bottom: 5px; /* Position above the game bar */
+  right: 400px; /* Position from the right side */
+  z-index: 1; /* Ensure it appears above other elements */
+}

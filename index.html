@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+  <meta charset="UTF-8">
+  <title>Astro Maths</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body> <!-- Dark blue background to match space theme-->
+  
+<div id="Title-Container">
+  <img src="Sprites/Heading.png" alt="Astro Maths Title" style="width: 600px; height: auto;"> <!-- Title image for the game's home screen -->
+</div>
+
+<div id="Menu_Buttons"> <!--This is a container for the buttons shown below: Survival, 5 Minutes, Instructions, this can then be incorporated in style.css-->
+<button id="survival-myBtn"><b>Survival</b></button>
+<button id ="5minutes-myBtn"><b>5 Minutes</b></button>
+<button id="Instructions-myBtn"><b>Instructions</b></button>
+
+<div id="Instructions-myModal" class="modal"> 
+<!--When the user clicks on instructions, this modal will trigger, this was made to provide clarity to the users about the games rulings and features-->
+
+  <div class="Instructions-modal-content"> 
+    <span class="Instructions-close">&times;</span> <!-- This is the close button for the instructions, &times represents "x" the close button -->
+    <h1 id="Instructions-headings">Instructions</h1>
+    <p id="Instructions-text">
+      <!--Below is all of the instructions contents, how to play, controls etc.-->
+    <b>Solve Math Problems as quickly as you can and aim for the highest score</b>
+    <br>
+    <b>In Survival Mode you play until the projectiles reach your spaceship</b>
+    <br>
+    <b>In the 5 minutes mode you play until the timer ends or projectiles reach your spaceship</b>
+    <br>
+    <b>Watch out for tricky questions and keep an eye out for Power-Ups</b>
+    </p>
+    <h1 id="Instructions-headings"><b>Controls</b></h1>
+    <p id="Instructions-text">
+      <b>A and D or Left and Right Arrow Keys</b>
+      <br>
+      <b>Spacebar to Shoot</b>
+    </p>
+    <h1 id="Instructions-headings"><b>Power-Ups</b></h1>
+
+    <p id="Instructions-text">
+      <b>Clock - Slows down incoming projectiles for 10 seconds</b>
+      <br>
+      <b>Freeze - Freezes the rockets for 5 seconds</b>
+      <br>
+      <b>Double points - Doubles your points for 10 seconds</b>
+    </p>
+  </div>
+</div>
+
+</div>
+  <div id="Leaderboard-Contents"> <!-- This is a container for the leaderboard title, this can then be incorporated in style.css, this will be further developed -->
+  <h1 style="font-size: 30px;">Leaderboard</h1>
+</div>
+
+<div id="Planets"> <!--This is a container for any background images i intend to use -->
+  <img src="Sprites/Moon.png" alt="Moon" id="moon">
+  <img src="Sprites/Earth.png" alt="Earth" id="earth">
+  <img src="Sprites/BluePlanet.png" alt="BluePlanet" width="50px" height="50px" id="blueplanet">
+</div>
+
+
+<script src="interaction.js"></script>
+
+<script src="https://unpkg.com/paper"></script>
+<canvas id="myCanvas" resize Stars="1000"></canvas>
+<script src="Stars.js"></script>
+
+
+<a href="game.html" target="survivalBtn"></a>
+</body>
+</html>
+
+
+
+
+

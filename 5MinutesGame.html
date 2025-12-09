@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Survival Mode</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body style="background-color: rgb(0, 0, 20); color: white;">
+<div id="Sprite-Container">
+<img src="Sprites/Spaceship(With Boost).png" alt=""Spaceship" id="Spaceship_Boost">
+</div>
+
+<div class="Game_Bar_Container">
+  <div class="Game_Info">
+     <h1 id="score">Score: 0</h1>
+    <h1 id="time">Time: 0</h1>
+    <h1 id="level">Level: 1</h1>
+  </div>
+
+<!-- Keep the pause button inside the game bar -->
+<div id="Pause_Container">
+  <button id="Pause">
+    <img src="Sprites/Pause Button.png" alt="Pause" width="40px" height="40px">
+  </button>
+</div>
+
+<!-- Move this outside the Game_Bar_Container div -->
+<div id="Pause-myModal" class="Pause-modal">
+  <div class="Pause-modal-content">
+    <span class="Pause-close">&times;</span>
+    <h1 style="color: #00eeff; font-family: Space Cadets;">Paused</h1>
+    <button id="resume_Btn">Resume</button>
+    <button id="restart_Btn">Restart</button>
+    <button id="quit_Btn">Quit</button>
+
+
+
+    <button id="Instructions-myBtn"><b>Instructions</b></button>
+    <div id="Instructions-myModal" class="modal">
+
+  <div class="Instructions-modal-content"> <!-- This is the content of the modal or instructions screen that appears when the instructions button is clicked -->
+    <span class="Instructions-close">&times;</span> <!-- This is the close button for the instructions, &times represents "x" the close button -->
+    <h1 style="color: #00eeff; font-family: Space Cadets;">Instructions</h1>
+    <p1 style="color: #f79627;">
+      <!--Below is all of the instructions contents, how to play, controls etc.-->
+    <b>Solve Math Problems Quickly to earn points</b>
+    <br>
+    <b>In Survival Mode you play until the rockets reach your spaceship</b>
+    <br>
+    <b>In 5 minute mode you play until timer or ends or rockets reach your spaceship</b>
+    <br>
+    <b>Watch out for tricky questions</b>
+    </p1>
+    <br>
+    <h1 style="color: #00eeff; font-family: Space Cadets;"><b>Controls</b></h1>
+    <p2 style="color: #f79627;">
+      <b>A and D or Left and Right Arrow Keys</b>
+      <br>
+      <b>Spacebar to Shoot</b>
+    </p2>
+    <h1 style="color: #00eeff; font-family: Space Cadets;"><b>Power-Ups</b></h1>
+
+    <p3 style="color: #f79627;">
+      <b>Clock - Slows down incoming projectiles for 10 seconds</b>
+      <br>
+      <b>Freeze - Freezes the rockets for 5 seconds</b>
+      <br>
+      <b>Double points - Doubles your points for 10 seconds</b>
+  </div>
+</div>
+    
+  </div>
+</div>
+
+
+
+
+
+<script src="https://unpkg.com/paper"></script>
+<canvas id="myCanvas" resize></canvas> 
+<script type="text/paperscript" canvas="myCanvas"> 
+
+  var stars = [];
+
+  for (var i = 0; i <= 500; i++) {
+    var point = new Point(view.size.width, view.size.height) * Point.random(); 
+    var circle = new Path.Circle(point, 1); // use that position to draw a star
+    circle.fillColor = "white"; // color it white
+    stars.push(circle); // store it if needed later
+  }
+
+</script>
+
+<script src="game.js"></script>
+<script src="interaction.js"></script>
+
+    
+</body>
+</html>

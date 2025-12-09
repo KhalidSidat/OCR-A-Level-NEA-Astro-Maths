@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Survival Mode</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<!--Starry background-->
+<script src="https://unpkg.com/paper"></script>
+
+<script src="Stars.js"></script>
+<canvas id="myCanvas" resize Stars="500"></canvas>
+
+<canvas id="SpaceshipCanvas"></canvas>
+
+<!--Below are the sprites within the game, Spaceship and Projectile-->
+
+
+<img src="Sprites/ICE (freeze power up).png" alt="Freeze Power-Up" id="Freeze_PowerUp">
+<img src="Sprites/Clock (Power-up).png" id="DoublePoints_PowerUp">
+
+<div id="Spaceship-Container">
+<img src="Sprites/Spaceship(With Boost).png" alt="Spaceship" id="Spaceship_Boost">
+<img src="Sprites/Rocket Launcher.png" alt="Rocket Launcher" id="Rocket_Launcher">
+
+
+</div>
+<!--
+<div class="projectile">
+  <div id="projectiles-Container"> Multiple projectiles for testing purposes (TEMPORARY)
+  <img src = Sprites/projectile.png alt="projectile" id="projectile">
+  <div id="random_question" class="question"></div>
+</div>
+-->
+
+<div id="projectiles-Container2">
+  <img src = Sprites/projectile.png alt="projectile" id="projectile2">
+</div>
+
+<div id="projectiles-Container3">
+  <img src = Sprites/projectile.png alt="projectile" id="projectile3">
+</div>
+
+<div id="projectiles-Container4">
+  <img src = Sprites/projectile.png alt="projectile" id="projectile4">
+</div>
+
+</div>
+
+
+<div class="Game_Bar_Container"> <!--This is a game bar at the bottom of the screen which displays: Score, Time and Level-->
+  <div class="Game_Info">
+     <h1 id="score">Score: 0</h1>
+     <div id= "timer">
+    <h1 id="time">Time: </h1>
+
+
+
+     </div>
+
+    <h1 id="level">Level: 1</h1>
+  </div>
+
+<div id="Pause_Container"> <!--Pause Button which will later allow the user access the buttons: Resume, Quit, Restart and Instructions-->
+  <button id="Pause">
+    <img src="Sprites/Pause Button.png" alt="Pause" id="Pause_Button">
+  </button>
+</div>
+
+
+
+
+
+
+< id="Pause-myModal" class="Pause_modal">
+  <div class="Pause-modal-content">
+  <span class="Pause-close">&times;</span>
+  <h1 style="color: #00eeff; font-family: Space Cadets;">Paused</h1>
+
+  <div id="Pause_Buttons">
+
+
+  <button id="resume_Btn">Resume</button>
+  <button id="restart_Btn">Restart</button>
+  <button id="quit_Btn">Quit</button>
+  <button id="Instructions-myBtn"><b>Instructions</b></button>
+
+<div id="Instructions-myModal" class="modal"> 
+
+
+  
+
+<!--When the user clicks on instructions, this modal will trigger, this was made to provide clarity to the users about the games rulings and features-->
+
+  <div class="Instructions-modal-content"> 
+    <span class="Instructions-close">&times;</span> <!-- This is the close button for the instructions, &times represents "x" the close button -->
+    <h1 id="Instructions-headings">Instructions</h1>
+    <p id="Instructions-text">
+      <!--Below is all of the instructions contents, how to play, controls etc.-->
+    <b>Solve Math Problems as quickly as you can and aim for the highest score</b>
+    <br>
+    <b>In Survival Mode you play until the projectiles reach your spaceship</b>
+    <br>
+    <b>In the 5 minutes mode you play until the timer ends or projectiles reach your spaceship</b>
+    <br>
+    <b>Watch out for tricky questions and keep an eye out for Power-Ups</b>
+    </p>
+    <h1 id="Instructions-headings"><b>Controls</b></h1>
+    <p id="Instructions-text">
+      <b>A and D or Left and Right Arrow Keys</b>
+      <br>
+      <b>Spacebar to Shoot</b>
+    </p>
+    <h1 id="Instructions-headings"><b>Power-Ups</b></h1>
+
+    <p id="Instructions-text">
+      <b>Clock - Slows down incoming projectiles for 10 seconds</b>
+      <br>
+      <b>Freeze - Freezes the rockets for 5 seconds</b>
+      <br>
+      <b>Double points - Doubles your points for 10 seconds</b>
+    </p>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+<script src="interaction.js"></script>
+</body>
+</html>
+
+
