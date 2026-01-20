@@ -103,79 +103,112 @@ document.addEventListener('keyup', function(e) {
 
 move_Spaceship() 
 
+
+
 //----------------------------------------------------------------------------Rocket Contents-----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-const projectile = document.getElementById("projectile");
-let positionY = 0;
-
-// Get the height of the Game Bar Container
+const projectilesContainer = document.getElementById("projectiles-Container");
 const gameBarHeight = document.querySelector(".Game_Bar_Container").offsetHeight;
 
-const intervalId = setInterval(() => {
-  positionY += 0.1; // pixels to move each step
-  projectile.style.top = positionY + "px";
+let projectileSpeed = 0.5; // normal speed
+let projectilesData = []; // tracks all projectiles
 
-  // Stop the projectile if it hits the Game Bar
-  if (positionY > window.innerHeight - gameBarHeight) {
-    clearInterval(intervalId); // Stop the movement
-    window.location.href = "GameOver.html"; // Redirect to EndGame.html
-  }
-}, 16); // about 60 frames per second
+// Move all projectiles every frame
+function moveProjectiles() {
+  projectilesData.forEach((data, index) => {
+    data.positionY += projectileSpeed;
+    data.element.style.top = data.positionY + "px";
 
-
-
-
-//Random Number Generator//
-const symbols = ['*', '+', '-', '/'];
-
-function random_equation_generator(symbols) {
-  const index = Math.floor(Math.random() * symbols.length);
-  let first_num = Math.floor(Math.random() * 11);
-  let second_num = Math.floor(Math.random() * 11);
-
-  if (symbols[index] === "/") {
-    first_num = Math.floor(Math.random() * 11) + 1;
-    second_num = Math.floor(Math.random() * 11) + 1;
-  }
-  
-  return `${first_num} ${symbols[index]} ${second_num}`;
-}
-
-
-// Creates a projectile and attaches a random question
-function createProjectile() {
-  const projectile = document.createElement("div");
-  projectile.classList.add("projectile");
-
-  const question = document.createElement("div");
-  question.classList.add("question");
-  question.textContent = random_equation_generator(symbols);  // Set the random question text
-
-  // Attach the question to the projectile
-  projectile.appendChild(question);
-
-  const container = document.getElementById("projectiles-Container");
-  container.appendChild(projectile);
-
-  let positionY = -100; // Starting position
-  const speed = 10; // Speed of movement
-
-  const intervalId = setInterval(() => {
-    positionY += speed;  // Move the projectile down
-    projectile.style.top = positionY + "px";  // Update position of the projectile
-
-    question.style.top = (positionY + 50) + "px";  // Update the question's position with the projectile
-
-    // Stop if the projectile reaches the Game Bar (bottom of screen)
-    if (positionY > window.innerHeight - document.querySelector(".Game_Bar_Container").offsetHeight) {
-      clearInterval(intervalId);
-      projectile.remove(); // Remove the projectile and question when off screen
+    // Track the last Y per lane
+    if (data.positionY > laneLastY[data.lane]) {
+      laneLastY[data.lane] = data.positionY;
     }
-  }, 16); // 60 FPS
+
+    // Remove projectile if it hits the Game Bar
+    if (data.positionY + data.element.offsetHeight > window.innerHeight - gameBarHeight) {
+      triggerGameOver();
+    }    
+  });
+
+  requestAnimationFrame(moveProjectiles);
 }
 
-// Call this function to generate projectiles and questions
-setInterval(createProjectile, 2000); // Generate a new projectile every 2 seconds
+moveProjectiles();
+
+const symbols = ["*", "+", "-", "/"];
+
+function randomEquation() {
+  const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+  let a = Math.floor(Math.random() * 11);
+  let b = Math.floor(Math.random() * 11);
+
+  if (symbol === "/") {
+    a = Math.floor(Math.random() * 11) + 1;
+    b = Math.floor(Math.random() * 11) + 1;
+    a = a * b; // ensures whole-number division
+  }
+
+  let answer;
+  switch (symbol) {
+    case "*": answer = a * b; break;
+    case "+": answer = a + b; break;
+    case "-": answer = a - b; break;
+    case "/": answer = a / b; break;
+  }
+
+  return {
+    question: `${a} ${symbol} ${b}`,
+    answer: answer
+  };
+}
+
+
+
+const spawnY = -100; // spawn just off-screen
+
+function spawnProjectile() {
+  for (let lane = 0; lane < laneCount; lane++) {
+
+    const laneProjectiles = projectilesData.filter(p => p.lane === lane);
+    let highestY = Infinity;
+
+    laneProjectiles.forEach(p => {
+      if (p.positionY < highestY) highestY = p.positionY;
+    });
+
+    if (laneProjectiles.length === 0 || highestY > laneSpacing) {
+
+      const equation = randomEquation();
+
+      const projectile = document.createElement("div");
+      projectile.classList.add("projectile");
+      projectile.style.top = spawnY + "px";
+
+      const img = document.createElement("img");
+      img.src = "Sprites/projectile.png";
+
+      const text = document.createElement("div");
+      text.classList.add("projectile-text");
+      text.textContent = equation.question;
+
+      projectile.appendChild(img);
+      projectile.appendChild(text);
+      projectilesContainer.appendChild(projectile);
+
+
+      const width = projectile.offsetWidth;
+      projectile.style.left = (lanePositions[lane] - width / 2) + "px";
+
+      projectilesData.push({
+        element: projectile,
+        positionY: spawnY,
+        lane: lane,
+        answer: equation.answer
+      });      
+    }
+  }
+}
+
 
 
 
@@ -219,17 +252,17 @@ function PAUSE(modal_ID, pauseBtn_ID, closeButtonSelector) { //Function which wi
 PAUSE("Pause-myModal", "Pause", ".Pause-close"); 
 
 
-function quitGame() {
+function quitGame() { //Function to quit the game and return to the main menu
   document.getElementById("quit_Btn").addEventListener("click", function() {window.location.href = "index.html";});
 }
 quitGame();
 
-function restartGame() {
+function restartGame() { //Function to restart the game and return to the SurvivalGame.html
   document.getElementById("restart_Btn").addEventListener("click", function() {window.location.href = "SurvivalGame.html";});
 }
 restartGame();
 
-function resumeGame() {
+function resumeGame() { //Function to resume the game from pause menu
   const resumeBtn = document.querySelector("#resume_Btn"); //Remember to include #
   const Pause_modal = document.getElementById("Pause-myModal");
     resumeBtn.onclick = function() {
@@ -238,7 +271,7 @@ function resumeGame() {
   }
 resumeGame();
 
-function Pause_Instructions() {
+function Pause_Instructions() { //Function which will enable the instruction popup to open and close from the pause menu
   Instructions("Instructions-myModal", "Instructions-myBtn", ".Instructions-close");
 }
 Pause_Instructions();
@@ -256,7 +289,7 @@ function updateRocketPosition() {
   const rocketLeft = spaceshipRect.left + (spaceshipRect.width / 2) - (rocketWidth / 2);
   
   // Place the rocket just above the spaceship
-  const rocketBottom = window.innerHeight - spaceshipRect.top + 10; // 10px gap if you like
+  const rocketBottom = window.innerHeight - spaceshipRect.top + 10; 
   
   // Update the rocket's style
   rocket.style.left = rocketLeft + "px";
@@ -264,17 +297,374 @@ function updateRocketPosition() {
 }
 
 //----------------------------------------------------------------------------Endgame Button Functionality-----------------------------------------------------------------------------------------------------------------------------------------------------------//
-
 function End_game_restartGame() {
-  document.getElementById("end_game_restart").addEventListener("click", function() {window.location.href = "SurvivalGame.html";});
+  const btn = document.getElementById("end_game_restart");
+  if (!btn) return;
+
+  btn.addEventListener("click", function() {
+    window.location.href = "SurvivalGame.html"; //changed**
+  });
 }
 End_game_restartGame();
 
+
 function End_game_quitGame() {
-  document.getElementById("end_game_quit").addEventListener("click", function() {window.location.href = "index.html";});
+  const btn = document.getElementById("end_game_quit"); //changed**
+  if (!btn) return;
+
+  btn.addEventListener("click", function() {
+    window.location.href = "index.html";
+  });
 }
 End_game_quitGame();
 
 //----------------------------------------------------------------------------Timer-----------------------------------------------------------------------------------------------------------------------------------------------------------/
 
-//----------------------------------------------------------------------------Spawn Power-Up-----------------------------------------------------------------------------------------------------------------------------------------------------------/
+
+//----------------------------------------------------------------------------Freeze Power-Up-----------------------------------------------------------------------------------------------------------------------------------------------------------/
+
+const freeze = document.getElementById("Freeze_PowerUp");
+const clock = document.getElementById("Clock_PowerUp");
+const multiplier = document.getElementById("Multiplier_PowerUp");
+let freezeActive = false;
+let clockActive = false;
+let multiplierActive = false;
+
+
+
+function checkCollisionMultiplier() {
+  if (!multiplier || multiplier.style.display === "none") return;
+
+  const shipRect = spaceship.getBoundingClientRect();
+  const multiplierRect = multiplier.getBoundingClientRect();
+  const tolerance = 10;
+
+  if (
+    shipRect.left + tolerance < multiplierRect.right &&
+    shipRect.right - tolerance > multiplierRect.left &&
+    shipRect.top + tolerance < multiplierRect.bottom &&
+    shipRect.bottom - tolerance > multiplierRect.top
+  ) {
+    activateMultiplierPowerUp();
+  }
+}
+
+
+
+function checkCollision1() {
+  console.log("Checking collision...");
+  if (!clock || clock.style.display === "none") return;
+
+  const shipRect = spaceship.getBoundingClientRect();
+  const clockRect = clock.getBoundingClientRect(); //doc
+  const tolerance = 10;
+
+  if (
+    shipRect.left + tolerance < clockRect.right &&
+    shipRect.right - tolerance > clockRect.left &&
+    shipRect.top + tolerance < clockRect.bottom &&
+    shipRect.bottom - tolerance > clockRect.top
+  ) {
+    activateClockPowerUp();
+  }
+}
+
+
+
+
+function checkCollision() {
+  if (!freeze || freeze.style.display === "none") return;
+
+  const shipRect = spaceship.getBoundingClientRect();
+  const freezeRect = freeze.getBoundingClientRect(); 
+  const tolerance = 10;
+
+  if (
+    shipRect.left + tolerance < freezeRect.right &&
+    shipRect.right - tolerance > freezeRect.left &&
+    shipRect.top + tolerance < freezeRect.bottom &&
+    shipRect.bottom - tolerance > freezeRect.top
+  ) {
+    activateFreezePowerUp();
+  }
+}
+
+function activateFreezePowerUp() {
+  if (freezeActive) return;
+
+  freezeActive = true;
+  freeze.style.display = "none";
+
+  const normalSpeed = projectileSpeed;
+  projectileSpeed = 0;
+
+  setTimeout(() => {
+    projectileSpeed = normalSpeed;
+    freezeActive = false;
+  }, 5000);
+}
+
+function activateClockPowerUp() {
+  if (clockActive) return;
+
+  clockActive = true;
+  clock.style.display = "none";
+
+  const normalSpeed = projectileSpeed;
+  projectileSpeed = normalSpeed * 0.5;
+
+  setTimeout(() => {
+    projectileSpeed = normalSpeed;
+    clockActive = false;
+  }, 5000);
+}
+
+function activateMultiplierPowerUp() {
+  if (multiplierActive) return;
+
+  multiplierActive = true;
+  multiplier.style.display = "none";
+
+  scoreMultiplier = 1.5;
+
+  setTimeout(() => {
+    scoreMultiplier = 1;
+    multiplierActive = false;
+  }, 10000); // 10 seconds
+}
+
+
+
+function powerUpLoop() {
+  checkCollision();          // Freeze
+  checkCollision1();         // Clock
+  checkCollisionMultiplier();// Multiplier
+  requestAnimationFrame(powerUpLoop);
+}
+powerUpLoop();
+
+
+//----------------------------------------------------------------------------Shooting Functionality-----------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+const rocketsContainer = document.getElementById("rockets-container");
+
+let rockets = [];
+let rocketSpeed = 8;
+
+function shootRocket(answer = null) {
+  const rocket = document.createElement("img");
+  rocket.src = "Sprites/Rocket Launcher.png";
+  rocket.classList.add("rocket");
+
+  const shipRect = spaceship.getBoundingClientRect();
+
+  rocket.style.left = shipRect.left + shipRect.width / 2 + "px";
+  rocket.style.top = shipRect.top + "px";
+
+  rocketsContainer.appendChild(rocket);
+
+  rockets.push({
+    element: rocket,
+    y: shipRect.top,
+    answer: answer 
+  });
+}
+
+
+function moveRockets() {
+  rockets.forEach((rocket, index) => {
+    rocket.y -= rocketSpeed;
+    rocket.element.style.top = rocket.y + "px";
+
+    if (rocket.y < -50) {
+      rocket.element.remove();
+      rockets.splice(index, 1);
+    }
+  });
+
+  requestAnimationFrame(moveRockets);
+}
+moveRockets();
+
+
+const answerInput = document.getElementById("answerInput");
+answerInput.focus();
+
+document.addEventListener("keydown", function (e) {
+  if (e.code === "Space") {
+    e.preventDefault();
+
+    const userAnswer = answerInput.value.trim();
+    if (userAnswer === "") return;
+
+    shootRocket(Number(userAnswer)); 
+
+    answerInput.value = "";
+  }
+});
+
+document.addEventListener("click", () => {
+  answerInput.focus();
+});
+
+answerInput.addEventListener("keydown", function (e) {
+  if (e.code === "Space") {
+    e.preventDefault();
+  }
+});
+
+
+
+function isColliding(rect1, rect2, tolerance = 5) {
+  return (
+    rect1.left + tolerance < rect2.right &&
+    rect1.right - tolerance > rect2.left &&
+    rect1.top + tolerance < rect2.bottom &&
+    rect1.bottom - tolerance > rect2.top
+  );
+}
+
+
+function checkRocketProjectileCollisions() {
+  rockets.forEach((rocket, rIndex) => {
+    const rocketRect = rocket.element.getBoundingClientRect();
+
+    projectilesData.forEach((proj, pIndex) => {
+      const projectileRect = proj.element.getBoundingClientRect();
+
+      if (
+        isColliding(rocketRect, projectileRect, 8) &&
+        rocket.answer === proj.answer
+      ) {
+       
+        rocket.element.remove();
+        rockets.splice(rIndex, 1);
+
+        proj.element.remove();
+        projectilesData.splice(pIndex, 1);
+
+        addScore(50);
+      }
+    });
+  });
+}
+
+
+function rocketCollisionLoop() {
+  checkRocketProjectileCollisions();
+  requestAnimationFrame(rocketCollisionLoop);
+}
+rocketCollisionLoop();
+
+
+
+let score = 0;
+let scoreMultiplier = 1;
+const scoreDisplay = document.querySelector("#score h1");
+
+function addScore(amount) {
+  score += Math.floor(amount * scoreMultiplier);
+  scoreDisplay.textContent = "Score: " + score;
+}
+
+
+
+
+
+
+
+const laneCount = 4;
+const lanePositions = [];
+
+function calculateLanes() {
+  lanePositions.length = 0;
+
+  const screenWidth = window.innerWidth;
+  const spacing = screenWidth / (laneCount + 1);
+
+  for (let i = 1; i <= laneCount; i++) {
+    lanePositions.push(spacing * i);
+  }
+}
+
+calculateLanes();
+window.addEventListener("resize", calculateLanes);
+
+
+const laneLastY = new Array(laneCount).fill(-200);
+const laneSpacing = 180; // distance between projectiles vertically
+
+setInterval(spawnProjectile, 1000);
+
+function checkTypedAnswer(input) {
+  projectilesData.forEach((proj, index) => {
+    if (Number(input) === proj.answer) {
+      proj.element.remove();
+      projectilesData.splice(index, 1);
+      addScore(50);
+    }
+  });
+}
+
+
+
+
+function getClosestProjectile() {
+  if (projectilesData.length === 0) return null;
+
+  return projectilesData.reduce((closest, current) => {
+    return current.positionY > closest.positionY ? current : closest;
+  });
+}
+
+const gameStartTime = Date.now();
+
+
+let gameOverTriggered = false;
+
+function triggerGameOver() {
+  if (gameOverTriggered) return;
+  gameOverTriggered = true;
+
+  const gameEndTime = Date.now();
+  const timeSurvived = Math.floor((gameEndTime - gameStartTime) / 1000);
+
+  localStorage.setItem("finalScore", score);
+  localStorage.setItem("timeSurvived", timeSurvived);
+
+  window.location.href = "GameOver.html";
+}
+
+
+End_game_restartGame();
+End_game_quitGame();
+
+
+var counter = 0;
+var timer = setInterval(function () {
+  var minutes = parseInt(counter / 60);
+  var seconds = counter % 60;
+  counter = counter + 1;
+
+  var formattedTime = "Time: " + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+  document.querySelector("#timer h1").textContent = formattedTime;
+}, 1000);
+
+
+const rocketHitbox = {
+  x: rocketX + 30,
+  y: rocketY + 5,
+  width: 40,
+  height: 90
+};
+
+
+const projectileHitbox = {
+  x: proj.x + 40,
+  y: proj.y + 30,
+  width: proj.width - 80,
+  height: proj.height - 60
+};
+
+
