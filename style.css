@@ -197,76 +197,60 @@ body { /* Sets the background colour of the page to a dark blue */
   transform: translateX(-50%);
   width: 300px; 
   height: auto; 
-  z-index: 1;
+  z-index: 2;
   
 }
 
-#Rocket_Launcher { /* Sizing for the Rocket Launcher image */
-  position: fixed;
-  bottom: 185px;
-  transform: translateX(415%);
-  width: 200px; 
-  height: auto; 
-  z-index: 1;
-}
 
-
-
-
-
-
-#projectiles-Container2 { 
-  position: fixed; 
-  top: -100px; 
-  left: 475px; /* +475 px difference between each projectile */
-  z-index: 1;
-}
-
-#projectiles-Container3 { 
-  position: fixed; 
-  top: -100px; 
-  left: 950px;
-  z-index: 1;
-}
-
-#projectiles-Container4 { 
-  position: fixed; 
-  top: -100px; 
-  left: 1425px;
-  z-index: 1;
-}
-/* Below Are the sizes of each projectile (All Same/TEMPORARY) */
 .projectile {
   position: absolute;
-  top: 0;
-  left: 50%; /* Centers the projectile */
-  transform: translateX(-50%); /* Centers the projectile */
+  width: 400px;        /* your original size */
+  height: 140px;       /* match PNG height */
+  pointer-events: none;
 }
 
-.question {
+
+
+.projectile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   
+  object-position: center;
+  display: block;
+}
+
+
+.projectile-text {
   position: absolute;
-  top: 50%; /* Position the question relative to the projectile */
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%); /* Keep the question in the center of the projectile */
-  font-size: 16px;
-  color: #fff; /* White color for contrast */
-  font-family: 'Space Cadets', sans-serif;
+  left: 52.5%;
+  top: 30%;              
+  transform: translate(-50%, -50%);
+  font-family: Orbitron;
+  font-size: 22px;
+  color: white;
 }
 
-#projectile2 { 
-  width: 400px; 
-  height: auto; 
+
+
+
+#projectiles-Container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
 }
 
-#projectile3 { 
-  width: 400px; 
-  height: auto; 
-}
 
-#projectile4 { 
-  width: 400px; 
-  height: auto; 
-}
+
+
+
+
+/* Below Are the sizes of each projectile (All Same/TEMPORARY) */
+
+
+
 
 #Pause_Container { /* Positions Pause image in the top right corner */
     position: fixed;
@@ -275,20 +259,20 @@ body { /* Sets the background colour of the page to a dark blue */
     z-index: 1;
 }
 
-/* styles the pause Button */
-#Pause_Button {
+
+#Pause_Button { /* Styles for the pause button image */
     display: block;
     background: rgb(0, 0, 20); /* dark blue used to blend with background */
     width: 50px;
     height: auto;
 }
 
-#Pause {
+#Pause { 
     background: none;
     border: none;
 }
 
-.Pause_modal {
+.Pause_modal { /* sets the overlay for the pause menu */
     display: none;
     position: fixed;
     z-index: 1;
@@ -301,7 +285,7 @@ body { /* Sets the background colour of the page to a dark blue */
 
 }
 
-.Pause-modal-content {
+.Pause-modal-content { /* Style for the contents of the pasue menu:  Background colour, border, layout of text */
     background-color: #222222;
     margin: 15% auto;
     padding: 20px;
@@ -310,21 +294,26 @@ body { /* Sets the background colour of the page to a dark blue */
     text-align: center;
 }
 
-.Pause-close {
+#Pause_heading { /* Style for the heading in the pause menu */
+    font-family: Space Cadets;
+    color: #00eeff; 
+}
+
+.Pause-close { /* defualt style for the close button ("x") in the pause screen */
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.Pause-close:hover {
+.Pause-close:hover { /* When the user hovers over the close button, the colour of the 'x' changes to red and a pointer is shown */
     color: red;
     text-decoration: none;
     cursor: pointer;
 }
 
 
-#Pause_Buttons {
+#Pause_Buttons { /* Flexbox used for the layout of the buttons*/
   display: flex; 
   flex-direction: column; 
   align-items: center;
@@ -352,7 +341,7 @@ body { /* Sets the background colour of the page to a dark blue */
   z-index: 1;
 }
 
-#Game_Lost_Heading {
+#Game_Lost_Heading { /* Styles and positioning for the main title text shown on the game over screen */
     font-family: Space Cadets;
     color: #b80000;
     text-align: center;
@@ -362,7 +351,7 @@ body { /* Sets the background colour of the page to a dark blue */
 }
 
 
-#Score {
+#Score { /* Styles and postioning for the score text shown on the game over screen */
     font-family: Space Cadets;
     color: #b80000;
     text-align: center;
@@ -372,7 +361,7 @@ body { /* Sets the background colour of the page to a dark blue */
 
 }
 
-#Time {
+#Time { /* Styles and positioning for the time text shown on the game over screen */
     font-family: Space Cadets;
     color: #b80000;
     text-align: center;
@@ -406,7 +395,7 @@ body { /* Sets the background colour of the page to a dark blue */
   z-index: 1;
 }
 
-#Game_Won_Heading {
+#Game_Won_Heading { /* Styles and positioning for the main title text shown on the victory screen */
     font-family: Space Cadets;
     color: #00ff00;
     text-align: center;
@@ -414,7 +403,7 @@ body { /* Sets the background colour of the page to a dark blue */
     font-size: 50px;
 }
 
-#Score_victory {
+#Score_victory { /* Styles and postioning for the score text shown on the victory screen */
     font-family: Space Cadets;
     color: #00ff00;
     text-align: center;
@@ -462,11 +451,76 @@ body { /* Sets the background colour of the page to a dark blue */
 }
 
 #Freeze_PowerUp {
-  display: none; 
   position: fixed;
-  width: 300px; /* Size of the power-up icon */
+  display: block;
+  width: 200px; /* Size of the power-up icon */
   height: auto;
-  bottom: 5px; /* Position above the game bar */
+  bottom: 40px; /* Position above the game bar */
   right: 400px; /* Position from the right side */
   z-index: 1; /* Ensure it appears above other elements */
 }
+
+#Clock_PowerUp {
+  position: fixed;
+  display: block;
+  width: 50px; /* Size of the power-up icon */
+  height: auto;
+  bottom: 100px; /* Position above the game bar */
+  left: 100px; /* Position from the right side */
+  z-index: 1; /* Ensure it appears above other elements */
+}
+
+#Multiplier_PowerUp {
+  display: block; 
+  position: fixed;
+  width: 50px; /* Size of the power-up icon */
+  height: auto;
+  bottom: 100px; /* Position above the game bar */
+  right: 450px; /* Position from the right side */
+  z-index: 1; /* Ensure it appears above other elements */
+}
+
+
+
+.rocket {
+  position: absolute;
+  width: 100px;
+  height: auto;
+  pointer-events: none;
+}
+
+#rockets-container {
+  position: absolute;
+  top: 50px;
+  right: 80px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+
+#answer-hud {
+  position: fixed;
+  bottom: 20px;
+  left: 30%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+#answerInput {
+  font-size: 20px;
+  padding: 8px 14px;
+  width: 180px;
+  text-align: center;
+}
+
