@@ -8,31 +8,49 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!--Below is the content for the main text of the screen (Game Over, Score and Time)-->
 <div id = "Game_Lost_Heading">
     <h1>Game Over</h1>
 </div>
-
-
 <div id="Score">
-    <h2>Score: </h2>
+    <h2 id="finalScore">Score: </h2>
 </div>
+
 <div id="Time">
-    <h2>Time: </h2>
+    <h2 id="finalTime">Time: </h2>
 </div>
 
 
 
 
+<!--Below is the buttons restart and quit-->
 <div id="Game_Lost_Buttons">
     <button id="end_game_restart"><b>Restart</b></button>
     <button id="end_game_quit"><b>Quit</b></button>
 </div>
-    
-<script src="interaction.js"></script>
+
+
+
+<script>
+    const score = localStorage.getItem("finalScore");
+    const time = localStorage.getItem("timeSurvived");
+  
+    document.getElementById("finalScore").textContent =
+      "Score: " + (score ?? 0);
+  
+    document.getElementById("finalTime").textContent =
+      "Time Survived: " + (time ?? 0) + " seconds";
+  </script>
+  
+<script src="gameover.js"></script>
 <script src="https://unpkg.com/paper"></script>
 <canvas id="myCanvas" resize Stars = "500"></canvas>
 <script src="Stars.js"></script>
-<script src="game.js"></script>
+
 
 </body>
 </html>
+
+
+
+
