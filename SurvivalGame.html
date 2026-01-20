@@ -18,70 +18,62 @@
 <!--Below are the sprites within the game, Spaceship and Projectile-->
 
 
-<img src="Sprites/ICE (freeze power up).png" alt="Freeze Power-Up" id="Freeze_PowerUp">
-<img src="Sprites/Clock (Power-up).png" id="DoublePoints_PowerUp">
+
 
 <div id="Spaceship-Container">
 <img src="Sprites/Spaceship(With Boost).png" alt="Spaceship" id="Spaceship_Boost">
-<img src="Sprites/Rocket Launcher.png" alt="Rocket Launcher" id="Rocket_Launcher">
-
-
-</div>
-<!--
-<div class="projectile">
-  <div id="projectiles-Container"> Multiple projectiles for testing purposes (TEMPORARY)
-  <img src = Sprites/projectile.png alt="projectile" id="projectile">
-  <div id="random_question" class="question"></div>
-</div>
--->
-
-<div id="projectiles-Container2">
-  <img src = Sprites/projectile.png alt="projectile" id="projectile2">
 </div>
 
-<div id="projectiles-Container3">
-  <img src = Sprites/projectile.png alt="projectile" id="projectile3">
+<div id="rockets-container"></div>
+
+
+<div id="PowerUp_Container">
+<img src="Sprites/ICE (freeze power up).png" alt="Freeze" id="Freeze_PowerUp">
+<img src="Sprites/CLOCK (power up).png" alt="Clock" id="Clock_PowerUp">
+<img src="Sprites/Multiplier (Power-up).png" alt="Multiplier" id="Multiplier_PowerUp">
 </div>
 
-<div id="projectiles-Container4">
-  <img src = Sprites/projectile.png alt="projectile" id="projectile4">
-</div>
+<div id="projectiles-Container"></div>
 
 </div>
 
 
-<div class="Game_Bar_Container"> <!--This is a game bar at the bottom of the screen which displays: Score, Time and Level-->
+
+
+
+<div class="Game_Bar_Container">
   <div class="Game_Info">
-     <h1 id="score">Score: 0</h1>
-     <div id= "timer">
-    <h1 id="time">Time: </h1>
 
+  <div id="score">
+    <h1>Score: 0</h1>
+  </div>
+ <div id="timer">
+    <h1>Time: 0</h1>
+  </div>
 
+  <div id="answer-hud">
+    <input type="text" id="answerInput" placeholder="Type answer..." autocomplete="off">
+  </div>
+  
 
-     </div>
 
     <h1 id="level">Level: 1</h1>
   </div>
-
-<div id="Pause_Container"> <!--Pause Button which will later allow the user access the buttons: Resume, Quit, Restart and Instructions-->
-  <button id="Pause">
-    <img src="Sprites/Pause Button.png" alt="Pause" id="Pause_Button">
-  </button>
 </div>
 
 
-
-
-
-
-< id="Pause-myModal" class="Pause_modal">
+<div id="Pause_Container"> <!--Pause Button which will later allow the user access the buttons: Resume, Quit, Restart and Instructions-->
+  <button id="Pause">
+    <img src="Sprites/Pause Button.png" alt="Pause" id="Pause_Button"> <!--Image used to represent the pause button-->
+  </button>
+</div>
+<!--Below is the code for the content of the pause model including the buttons and heading-->
+<div id="Pause-myModal" class="Pause_modal">
   <div class="Pause-modal-content">
   <span class="Pause-close">&times;</span>
-  <h1 style="color: #00eeff; font-family: Space Cadets;">Paused</h1>
-
+  <h1 id="Pause_heading">Paused</h1>
   <div id="Pause_Buttons">
-
-
+  
   <button id="resume_Btn">Resume</button>
   <button id="restart_Btn">Restart</button>
   <button id="quit_Btn">Quit</button>
@@ -132,7 +124,10 @@
 
 
 <script src="interaction.js"></script>
+<script src="game.js"></script>
 </body>
 </html>
+
+
 
 
